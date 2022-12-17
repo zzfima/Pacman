@@ -2,10 +2,9 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
-
-var mazeMap []string
 
 // LoadMaze read maze into string array
 func LoadMaze(path string) ([]string, error) {
@@ -24,10 +23,18 @@ func LoadMaze(path string) ([]string, error) {
 	return mz, nil
 }
 
+// PrintMaze printing maze to cmd
+func PrintMaze(maze []string) {
+	for _, line := range maze {
+		fmt.Println(line)
+	}
+}
+
 func main() {
 	mazeMap, e := LoadMaze("maze01.txt")
 	if e != nil {
 		return
 	}
-	mazeMap[0] = ""
+
+	PrintMaze(mazeMap)
 }
