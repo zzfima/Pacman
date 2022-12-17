@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -33,8 +34,13 @@ func PrintMaze(maze []string) {
 func main() {
 	mazeMap, e := LoadMaze("maze01.txt")
 	if e != nil {
+		log.Println("Failed to load maze:", e)
 		return
 	}
 
-	PrintMaze(mazeMap)
+	for {
+		PrintMaze(mazeMap)
+
+		break
+	}
 }
