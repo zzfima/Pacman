@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 
 	term "github.com/nsf/termbox-go"
 )
@@ -33,22 +34,28 @@ func ReadInputSpecialCharacters() (s string, e error) {
 	if e != nil {
 		return
 	}
-	ev := term.PollEvent()
-	term.Sync()
-	switch ev.Key {
-	case term.KeyEsc:
-		s = "ESC"
-	case term.KeyArrowUp:
-		s = "UP"
-	case term.KeyArrowDown:
-		s = "DOWN"
-	case term.KeyArrowLeft:
-		s = "LEFT"
-	case term.KeyArrowRight:
-		s = "RIGHT"
-	}
 
-	return
+	for {
+		switch ev := term.PollEvent(); ev.Key {
+		case term.KeyEsc:
+			s = "ESC"
+			return
+		case term.KeyArrowUp:
+			s = "UP"
+			return
+		case term.KeyArrowDown:
+			s = "DOWN"
+			return
+		case term.KeyArrowLeft:
+			s = "LEFT"
+			return
+		case term.KeyArrowRight:
+			s = "RIGHT"
+			return
+		default:
+			term.Sync()
+		}
+	}
 }
 
 // PrintMaze printing maze to cmd
@@ -58,6 +65,12 @@ func PrintMaze(maze []string) {
 	}
 }
 
+// CleanScreen clean all info from screen
+func CleanScreen() {
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Run()
+}
+
 func main() {
 	mazeMap, e := LoadMaze("maze01.txt")
 	if e != nil {
@@ -65,10 +78,11 @@ func main() {
 		return
 	}
 
+	CleanScreen()
 	PrintMaze(mazeMap)
 	for {
 		input, e := ReadInputSpecialCharacters()
-		fmt.Println(input, e)
+		fmt.Println(input)
 
 		if input == "ESC" || e != nil {
 			break
