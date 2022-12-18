@@ -21,10 +21,23 @@ func CleanScreen() {
 	cmd.Run()
 }
 
+// Sprite place on maze
+type Sprite struct {
+	row    int
+	column int
+}
+
 func main() {
 	mazeMap, e := LoadMaze("maze01.txt")
 	if e != nil {
 		log.Println("Failed to load maze:", e)
+		return
+	}
+
+	player, e := LoadPlayer(mazeMap)
+	fmt.Println(player)
+	if e != nil {
+		log.Println("Failed to load player:", e)
 		return
 	}
 

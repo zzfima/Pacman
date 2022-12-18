@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -20,4 +21,17 @@ func LoadMaze(path string) ([]string, error) {
 		mz = append(mz, ln)
 	}
 	return mz, nil
+}
+
+// LoadPlayer load player from maze
+func LoadPlayer(maze []string) (Sprite, error) {
+	for rowIndex, row := range maze {
+		for columnIndex, element := range row {
+			if element == 'P' {
+				return Sprite{rowIndex, columnIndex}, nil
+			}
+		}
+	}
+
+	return Sprite{}, fmt.Errorf("no player found")
 }
