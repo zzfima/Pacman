@@ -34,7 +34,7 @@ func ReadInputSpecialCharacters() (s string, e error) {
 		return
 	}
 	ev := term.PollEvent()
-
+	term.Sync()
 	switch ev.Key {
 	case term.KeyEsc:
 		s = "ESC"
@@ -65,10 +65,19 @@ func main() {
 		return
 	}
 
+	PrintMaze(mazeMap)
 	for {
-		PrintMaze(mazeMap)
 		input, e := ReadInputSpecialCharacters()
 		fmt.Println(input, e)
-		break
+
+		if input == "ESC" || e != nil {
+			break
+		}
+
+		if input == "UP" || input == "DOWN" || input == "LEFT" || input == "RIGHT" {
+			PrintMaze(mazeMap)
+		}
+
+		term.Sync()
 	}
 }
