@@ -26,33 +26,29 @@ func LoadMaze(path string) ([]string, error) {
 	return mz, nil
 }
 
-// ReadInput read input includes esc, arrows etc
-func ReadInput() (string, error) {
-	e := term.Init()
+// ReadInputSpecialCharacters read input special characters: esc, up, down, left, right
+func ReadInputSpecialCharacters() (s string, e error) {
+	e = term.Init()
 	defer term.Close()
 	if e != nil {
-		return "", e
+		return
 	}
 	ev := term.PollEvent()
 
-	if ev.Ch != 0 {
-		return string(ev.Ch), nil
-	}
-
 	switch ev.Key {
 	case term.KeyEsc:
-		return "ESC", nil
+		s = "ESC"
 	case term.KeyArrowUp:
-		return "UP", nil
+		s = "UP"
 	case term.KeyArrowDown:
-		return "DOWN", nil
+		s = "DOWN"
 	case term.KeyArrowLeft:
-		return "LEFT", nil
+		s = "LEFT"
 	case term.KeyArrowRight:
-		return "RIGHT", nil
+		s = "RIGHT"
 	}
 
-	return "", nil
+	return
 }
 
 // PrintMaze printing maze to cmd
@@ -71,7 +67,7 @@ func main() {
 
 	for {
 		PrintMaze(mazeMap)
-		input, e := ReadInput()
+		input, e := ReadInputSpecialCharacters()
 		fmt.Println(input, e)
 		break
 	}
