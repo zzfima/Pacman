@@ -25,6 +25,7 @@ func ReadInputSpecialCharacters() (s string, e error) {
 			return
 		case term.KeyArrowLeft:
 			s = "LEFT"
+			//fallthrough
 			return
 		case term.KeyArrowRight:
 			s = "RIGHT"
